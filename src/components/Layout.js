@@ -3,10 +3,10 @@ import Header from './Header/Header';
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <main>
       <Header />
       {children}
-    </div>
+    </main>
   );
 };
 
