@@ -7,6 +7,7 @@ import axios from 'axios';
 const Header = () => {
   const path = useLocation().pathname;
   const [stock, setStock] = useState({});
+  const [hasStock, setHasStock] = useState(false);
 
   const pathVerify = path.includes('/details/');
 
@@ -21,25 +22,29 @@ const Header = () => {
             `https://api.twelvedata.com/stocks?source=docs&symbol=${param}&country=united%20states`
           )
           .then((res) => {
-            console.log(res.data.data[0]);
-            setStock(res.data.data[0]);
+            if (res.data.data == false) {
+              setHasStock(false);
+            } else {
+              setHasStock(true);
+              setStock(res.data.data[0]);
+            }
           })
           .catch((error) => {
-            console.log(error);
+            setHasStock(false);
           });
       };
       fetchData();
     }
-  }, [path]);
+  }, [hasStock, hasStock]);
 
   return (
     <NavWrapper>
       <NavContainer>
         {path.includes('/details/') ? (
-          stock != {} ? (
-            <Title>{`${stock.name} - ${stock.symbol} - ${stock.currency}`}</Title>
+          !hasStock ? (
+            <Title to="/mis-acciones">Mis acciones</Title>
           ) : (
-            <Title to="/mis-acciones"></Title>
+            <Title to="/mis-acciones">{`${stock.symbol} - ${stock.name} - ${stock.currency}`}</Title>
           )
         ) : (
           <Title to="/mis-acciones">Mis acciones</Title>
@@ -71,10 +76,13 @@ const NavContainer = styled.nav`
 `;
 
 const Title = styled(Link)`
-  font-size: 3vw;
+  font-size: 6vw;
   padding-left: 1rem;
   text-decoration: none;
   color: #2a2b2c;
+  @media screen and (min-width: 768px) {
+    font-size: 3vw;
+  }
 `;
 
 const UserContainer = styled.div`
