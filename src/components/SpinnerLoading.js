@@ -15,7 +15,7 @@ function Spinner(props) {
       display="block"
       {...props}
     >
-      <rect x={47} y={24} rx={0} ry={0} width={6} height={12} fill="#fe718d">
+      <rect x={47} y={24} rx={0} ry={0} width={6} height={12} fill="#2a2b2c">
         <animate
           attributeName="opacity"
           values="1;0"
@@ -32,7 +32,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(25.714 50 50)"
       >
         <animate
@@ -51,7 +51,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(51.429 50 50)"
       >
         <animate
@@ -70,7 +70,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(77.143 50 50)"
       >
         <animate
@@ -89,7 +89,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(102.857 50 50)"
       >
         <animate
@@ -108,7 +108,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(128.571 50 50)"
       >
         <animate
@@ -127,7 +127,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(154.286 50 50)"
       >
         <animate
@@ -146,7 +146,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(180 50 50)"
       >
         <animate
@@ -165,7 +165,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(205.714 50 50)"
       >
         <animate
@@ -184,7 +184,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(231.429 50 50)"
       >
         <animate
@@ -203,7 +203,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(257.143 50 50)"
       >
         <animate
@@ -222,7 +222,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(282.857 50 50)"
       >
         <animate
@@ -241,7 +241,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(308.571 50 50)"
       >
         <animate
@@ -260,7 +260,7 @@ function Spinner(props) {
         ry={0}
         width={6}
         height={12}
-        fill="#fe718d"
+        fill="#2a2b2c"
         transform="rotate(334.286 50 50)"
       >
         <animate

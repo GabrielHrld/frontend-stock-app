@@ -1,9 +1,11 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment';
 
+import { config } from '../utils/config';
+
+import ChartContainer from '../containers/ChartContainer';
 import Inputs from '../components/Inputs';
 import DateTimeContainer from '../components/DateTimeContainer';
 import { Button } from '../components/Button';
@@ -18,8 +20,6 @@ const Details = () => {
   const [handleFetch, setHandleFetch] = useState(false);
 
   const { stock } = useParams();
-
-  console.log(dateTime);
 
   let intervalInMiliseconds;
   if (intervalStock == '1min') intervalInMiliseconds = 60000;
@@ -37,37 +37,27 @@ const Details = () => {
     setIntervalStock(e.target.value);
   };
 
-  useEffect(() => {
-    let url = '';
-    if (period == realtime) {
-      const date = moment().format('YYYY-MM-DD HH:mm:ss');
-      url = `https://api.twelvedata.com/time_series?symbol=${stock}&country=united%20states&interval=${intervalStock}&end_date=${date}&apikey=45b71968aaeb44e3acc9ff43b1d52d67`;
+  let url = '';
+  if (period == realtime) {
+    //formateo la fecha y hora actual
+    const date = moment().format('YYYY-MM-DD HH:mm:ss');
+    url = `https://api.twelvedata.com/time_series?symbol=${stock}&country=united%20states&interval=${intervalStock}&end_date=${date}&apikey=${config.TwelveDataApiKey}`;
 
-      //cuando esté en realtime vuelve a renderizar el componente y llamar a la API
-      setTimeout(() => {
-        setHandleFetch(!handleFetch);
-      }, intervalInMiliseconds);
-    }
+    //cuando esté en realtime vuelve a renderizar el componente y llamar a la API
+    setTimeout(() => {
+      setHandleFetch(!handleFetch);
+    }, intervalInMiliseconds);
+  }
 
-    if (period == historical) {
-      url = `https://api.twelvedata.com/time_series?symbol=${stock}&country=united%20states&interval=${intervalStock}&start_date=${dateTime.start_date}&end_date=${dateTime.end_date}&apikey=45b71968aaeb44e3acc9ff43b1d52d67`;
-    }
-
-    const fetchData = () => {
-      axios
-        .get(url)
-        .then((res) => console.log(res.data))
-        .catch((error) => {
-          if (error.code == 400) history.push('/notfound');
-          console.log(error);
-        });
-    };
-    fetchData();
-  }, [handleFetch]);
+  if (period == historical) {
+    url = `https://api.twelvedata.com/time_series?symbol=${stock}&country=united%20states&interval=${intervalStock}&start_date=${dateTime.start_date}&end_date=${dateTime.end_date}&apikey=${config.TwelveDataApiKey}`;
+  }
 
   return (
     <DetailsWrapper>
       <DetailsContainer>
+        {/* Menu */}
+
         <MenuContainer>
           <PeriodContainer>
             <Inputs
@@ -118,18 +108,22 @@ const Details = () => {
             </select>
           </PeriodContainer>
         </MenuContainer>
+        {/* Botón para graficar */}
         <div
           style={{ display: 'flex', width: '50%', justifyContent: 'flex-end' }}
         >
           <Button onClick={reFetch}>Graficar</Button>
         </div>
+        {/* GRÁFICO */}
+        <ChartContainer handleFetch={handleFetch} url={url} />
       </DetailsContainer>
     </DetailsWrapper>
   );
 };
 
 const DetailsWrapper = styled.div`
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
 `;
 
 const DetailsContainer = styled.div`
