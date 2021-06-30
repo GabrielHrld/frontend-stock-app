@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Details from '../pages/Details';
 import MyStocksPage from '../pages/MyStocksPage';
@@ -7,8 +7,25 @@ import Register from '../pages/Register';
 import Layout from '../components/Layout';
 
 import '../styles/app.scss';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
-const App = () => {
+//ACTIONS
+import { setStocks, handleFetching } from '../actions';
+
+const App = ({ setStocks, handleFetching }) => {
+  useEffect(() => {
+    handleFetching();
+    const fetchData = async () => {
+      const res = await axios.get(
+        'https://api.twelvedata.com/stocks?&country=united%20states&source=docs'
+      );
+      setStocks(res.data.data);
+      handleFetching();
+    };
+    fetchData();
+  }, []);
+
   return (
     <Router>
       <Layout>
@@ -23,4 +40,9 @@ const App = () => {
   );
 };
 
-export default App;
+const mapDispatchToProps = {
+  setStocks,
+  handleFetching,
+};
+
+export default connect(null, mapDispatchToProps)(App);

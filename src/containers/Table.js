@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import axios from 'axios';
+
+import Spinner from '../components/SpinnerLoading';
+
 const Table = () => {
+  const [favStocks, setFavStocks] = useState([]);
+  const [loading, setLoading] = useState();
+
+  console.log(favStocks);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchApi = async () => {
+      try {
+        const res = await axios.get(
+          'http://localhost:3000/api/users/stocks/L61tSWCkgoV7hjP4yXMT9Ofk_'
+        );
+        setFavStocks(res.data.body);
+        setLoading(false);
+      } catch (error) {}
+    };
+
+    fetchApi();
+  }, []);
+
+  if (loading) return <Spinner />;
   return (
     <TableComponent>
       <TableHeader>
@@ -14,43 +39,28 @@ const Table = () => {
         </tr>
       </TableHeader>
       <tbody>
-        <TableRow>
-          <td>
-            <Link to="/details/nflx">NFLX</Link>
-          </td>
-          <td>Netflix Inc</td>
-          <td>USD</td>
-          <td>
-            <Link to="/details/nflx">Eliminar</Link>
-          </td>
-        </TableRow>
-        <TableRow>
-          <td>
-            <Link to="/details/nflx">Eliminar</Link>
-          </td>
-          <td>Netflix Inc</td>
-          <td>USD</td>
-          <td>
-            <Link to="/details/nflx">Eliminar</Link>
-          </td>
-        </TableRow>
-        <TableRow>
-          <td>
-            <Link to="/details/nflx">Eliminar</Link>
-          </td>
-          <td>Tesla Motors</td>
-          <td>USD</td>
-          <td>
-            <Link to="/details/nflx">Eliminar</Link>
-          </td>
-        </TableRow>
+        {favStocks.map((stock) => {
+          return (
+            <TableRow key={stock.id}>
+              <td>
+                <Link to={`/details/${stock.symbol}`}>{stock.symbol}</Link>
+              </td>
+              <td>{stock.name}</td>
+              <td>{stock.currency}</td>
+              <td>
+                <Link to="/details/nflx">Eliminar</Link>
+              </td>
+            </TableRow>
+          );
+        })}
       </tbody>
     </TableComponent>
   );
 };
 
 const TableComponent = styled.table`
-  width: 100%;
+  width: 90%;
+  margin: 1rem auto;
   &,
   th,
   td {

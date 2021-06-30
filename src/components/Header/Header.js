@@ -35,7 +35,7 @@ const Header = () => {
       };
       fetchData();
     }
-  }, [hasStock, hasStock]);
+  }, [path, hasStock]);
 
   return (
     <NavWrapper>
@@ -63,6 +63,7 @@ const NavWrapper = styled.header`
   width: 100%;
   height: 80px;
   border-bottom: 1px solid grey;
+  background: #fefefe;
 `;
 
 const NavContainer = styled.nav`

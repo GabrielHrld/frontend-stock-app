@@ -1,4 +1,4 @@
-import { setStocksType } from '../utils/actionTypes';
+import { fetchingType, setStocksType } from '../utils/actionTypes';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -8,6 +8,11 @@ const reducer = (state, action) => {
         stocks: action.payload,
       };
 
+    case fetchingType:
+      return {
+        ...state,
+        fetching: !state.fetching,
+      };
     default:
       return state;
   }
