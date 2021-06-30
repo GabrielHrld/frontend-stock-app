@@ -6,6 +6,8 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Layout from '../components/Layout';
 
+import PrivateRoute from '../components/PrivateRoute';
+
 import '../styles/app.scss';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -13,7 +15,7 @@ import { connect } from 'react-redux';
 //ACTIONS
 import { setStocks, handleFetching } from '../actions';
 
-const App = ({ setStocks, handleFetching }) => {
+const App = ({ setStocks, handleFetching, user }) => {
   useEffect(() => {
     handleFetching();
     const fetchData = async () => {
@@ -31,13 +33,30 @@ const App = ({ setStocks, handleFetching }) => {
       <Layout>
         <Switch>
           <Route exact path="/" component={Login} />
-          <Route exact path="/mis-acciones" component={MyStocksPage} />
+          <PrivateRoute exact={true} path="/" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/details/:stock" component={Details} />
+          <PrivateRoute
+            exact={true}
+            path="/mis-acciones"
+            component={MyStocksPage}
+          />
+          <PrivateRoute
+            exact={true}
+            path="/details/:stock"
+            component={Details}
+          />
+          {/* <Route exact path="/mis-acciones" component={MyStocksPage} />
+          <Route exact path="/details/:stock" component={Details} /> */}
         </Switch>
       </Layout>
     </Router>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
 };
 
 const mapDispatchToProps = {
@@ -45,4 +64,4 @@ const mapDispatchToProps = {
   handleFetching,
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
