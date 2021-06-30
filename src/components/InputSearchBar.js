@@ -23,7 +23,6 @@ const InputSearchBar = ({
     setTimeout(() => {
       setState(false);
     }, 1500);
-    setTimeout(() => history.go(0), 1800);
   };
 
   const postStock = async (e, name, symbol, currency) => {
@@ -31,16 +30,17 @@ const InputSearchBar = ({
     try {
       const res = await axios.post(
         `${config.BackendUrl}/api/users/stocks`,
+        //datos solicitados por el servidor para crear
         { name, symbol, currency },
         {
           headers: {
+            //bearer token
             Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ikw2MXRTV0NrZ29WN2hqUDR5WE1UOU9ma18iLCJ1c2VybmFtZSI6InBydWViYSIsImlhdCI6MTYyNTA3MzQ0MX0.z2-oWqOTqgk7Z8CjDoMJ8XICTzEEQA4zHI_sTM-M4G0`,
           },
         }
       );
-
-      console.log(res);
       await handleModal(setSuccess);
+      setTimeout(() => history.go(0), 1800);
     } catch (err) {
       console.log({ err });
       const { status, body } = err.response.data;
@@ -49,7 +49,6 @@ const InputSearchBar = ({
         console.log('Ya la tenemos ');
       }
     }
-    // return console.log({ name, symbol, currency });
   };
 
   return (

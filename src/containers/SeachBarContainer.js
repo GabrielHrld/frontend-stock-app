@@ -36,7 +36,6 @@ const SeachBarContainer = ({ stocks }) => {
         filteredUsers={filteredUsers}
         reference={searchInput}
       />
-      {/* <Button onClick={printValue}>Agregar símbolo</Button> */}
     </BarWrapper>
   );
 };
