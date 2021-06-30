@@ -28,6 +28,7 @@ const Register = () => {
     setTimeout(() => setSuccess(false), 1000);
   };
 
+  //FUNCIÓN PARA ENVIAR LOS DATOS
   const sendData = async () => {
     if (!username || !name || !lastname) {
       return setError({
@@ -62,7 +63,7 @@ const Register = () => {
       );
       handleModal();
       setTimeout(() => history.push('/'), 1500);
-      // console.log(res);
+      // ERRORES
     } catch (error) {
       const { body, status } = error.response.data;
       if (body == MYSQL_UNIQUE_ERROR && status == 400) {
@@ -71,7 +72,6 @@ const Register = () => {
           valid: true,
         });
       }
-      console.log({ error });
     }
   };
 
