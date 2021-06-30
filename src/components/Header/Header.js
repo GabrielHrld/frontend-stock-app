@@ -1,16 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Header = () => {
   const path = useLocation().pathname;
+  const [stock, setStock] = useState({});
 
-  useEffect(() => {}, [path]);
+  const pathVerify = path.includes('/details/');
+
+  useEffect(() => {
+    //Por algún motivo useParams no funciona y tengo que condicionar
+    if (path.includes('/details/')) {
+      const param = path.replace('/details/', '');
+
+      const fetchData = () => {
+        axios
+          .get(
+            `https://api.twelvedata.com/stocks?source=docs&symbol=${param}&country=united%20states`
+          )
+          .then((res) => {
+            console.log(res.data.data[0]);
+            setStock(res.data.data[0]);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      fetchData();
+    }
+  }, [path]);
 
   return (
     <NavWrapper>
       <NavContainer>
-        <Title>Mis acciones</Title>
+        {path.includes('/details/') ? (
+          stock != {} ? (
+            <Title>{`${stock.name} - ${stock.symbol} - ${stock.currency}`}</Title>
+          ) : (
+            <Title to="/mis-acciones"></Title>
+          )
+        ) : (
+          <Title to="/mis-acciones">Mis acciones</Title>
+        )}
+
         <UserContainer>
           <span>Usuario:</span>
           <span>Juan</span>
@@ -36,8 +70,11 @@ const NavContainer = styled.nav`
   align-items: center;
 `;
 
-const Title = styled.h2`
+const Title = styled(Link)`
+  font-size: 3vw;
   padding-left: 1rem;
+  text-decoration: none;
+  color: #2a2b2c;
 `;
 
 const UserContainer = styled.div`

@@ -16,7 +16,7 @@ const App = () => {
           <Route exact path="/" component={Login} />
           <Route exact path="/mis-acciones" component={MyStocksPage} />
           <Route exact path="/signup" component={Register} />
-          <Route exact path="/details" component={Details} />
+          <Route exact path="/details/:stock" component={Details} />
         </Switch>
       </Layout>
     </Router>

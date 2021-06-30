@@ -1,33 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Table = () => {
   return (
     <TableComponent>
       <TableHeader>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Age</th>
-        <th> </th>
+        <tr>
+          <th>Símbolo</th>
+          <th>Nombre</th>
+          <th>Moneda</th>
+          <th> </th>
+        </tr>
       </TableHeader>
-      <TableRow>
-        <td>Jill</td>
-        <td>Smith</td>
-        <td>50</td>
-        <td>Eliminar</td>
-      </TableRow>
-      <TableRow>
-        <td>Jill</td>
-        <td>Smith</td>
-        <td>50</td>
-        <td>Eliminar</td>
-      </TableRow>
-      <TableRow>
-        <td>Jill</td>
-        <td>Smith</td>
-        <td>50</td>
-        <td>Eliminar</td>
-      </TableRow>
+      <tbody>
+        <TableRow>
+          <td>
+            <Link to="/details/nflx">NFLX</Link>
+          </td>
+          <td>Netflix Inc</td>
+          <td>USD</td>
+          <td>
+            <Link to="/details/nflx">Eliminar</Link>
+          </td>
+        </TableRow>
+        <TableRow>
+          <td>
+            <Link to="/details/nflx">Eliminar</Link>
+          </td>
+          <td>Netflix Inc</td>
+          <td>USD</td>
+          <td>
+            <Link to="/details/nflx">Eliminar</Link>
+          </td>
+        </TableRow>
+        <TableRow>
+          <td>
+            <Link to="/details/nflx">Eliminar</Link>
+          </td>
+          <td>Tesla Motors</td>
+          <td>USD</td>
+          <td>
+            <Link to="/details/nflx">Eliminar</Link>
+          </td>
+        </TableRow>
+      </tbody>
     </TableComponent>
   );
 };
@@ -42,7 +59,7 @@ const TableComponent = styled.table`
   }
 `;
 
-const TableHeader = styled.tr`
+const TableHeader = styled.thead`
   background: #c5c5c5;
   & th {
     border: 1px solid black;
