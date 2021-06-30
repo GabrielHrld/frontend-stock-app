@@ -32,7 +32,7 @@ const App = ({ setStocks, handleFetching }) => {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/mis-acciones" component={MyStocksPage} />
-          <Route exact path="/signup" component={Register} />
+          <Route exact path="/register" component={Register} />
           <Route exact path="/details/:stock" component={Details} />
         </Switch>
       </Layout>

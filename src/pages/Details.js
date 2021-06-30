@@ -110,7 +110,12 @@ const Details = () => {
         </MenuContainer>
         {/* Botón para graficar */}
         <div
-          style={{ display: 'flex', width: '50%', justifyContent: 'flex-end' }}
+          style={{
+            display: 'flex',
+            width: '50%',
+            margin: '0 auto',
+            height: '40px',
+          }}
         >
           <Button onClick={reFetch}>Graficar</Button>
         </div>
@@ -122,6 +127,7 @@ const Details = () => {
 };
 
 const DetailsWrapper = styled.div`
+  background: #fefefe;
   width: 80%;
   margin: 0 auto;
 `;
@@ -137,7 +143,8 @@ const PeriodContainer = styled.div`
 `;
 
 const MenuContainer = styled.div`
-  width: 100%;
+  width: 50%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
