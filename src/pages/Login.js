@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import InputForm from '../components/InputForm';
@@ -10,6 +10,7 @@ import { config } from '../utils/config';
 const INVALID_DATA = 'Información inválida';
 
 const Login = () => {
+  const history = useHistory();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -35,6 +36,10 @@ const Login = () => {
           },
         }
       );
+
+      localStorage.setItem('user', JSON.stringify(res.data.body));
+      history.push('/mis-acciones');
+      setTimeout(() => history.go(0), 5);
       console.log(res);
       //ERRORES
     } catch (error) {

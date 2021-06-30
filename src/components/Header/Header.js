@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
-const Header = () => {
+let title = '';
+const Header = ({ user }) => {
+  const history = useHistory();
   const path = useLocation().pathname;
   const [stock, setStock] = useState({});
   const [hasStock, setHasStock] = useState(false);
 
-  const pathVerify = path.includes('/details/');
+  console.log(user.name);
+
+  if (path != '/') {
+    title = 'Mis acciones';
+  } else {
+    title = 'Mis acciones App';
+  }
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('user');
+    history.push('/');
+    setTimeout(() => history.go(0), 5);
+  };
 
   useEffect(() => {
     //Por algún motivo useParams no funciona y tengo que condicionar
@@ -35,25 +51,27 @@ const Header = () => {
       };
       fetchData();
     }
-  }, [path, hasStock]);
+  }, [path, hasStock, user]);
 
   return (
     <NavWrapper>
       <NavContainer>
         {path.includes('/details/') ? (
           !hasStock ? (
-            <Title to="/mis-acciones">Mis acciones</Title>
+            <Title to="/mis-acciones">{title}</Title>
           ) : (
             <Title to="/mis-acciones">{`${stock.symbol} - ${stock.name} - ${stock.currency}`}</Title>
           )
         ) : (
-          <Title to="/mis-acciones">Mis acciones</Title>
+          <Title to="/mis-acciones">{title}</Title>
         )}
-
-        <UserContainer>
-          <span>Usuario:</span>
-          <span>Juan</span>
-        </UserContainer>
+        {user.name !== undefined ? (
+          <UserContainer>
+            <span>Usuario:</span>
+            <span>{user.name}</span>
+            <Logout onClick={handleLogout}>Cerrar sesión</Logout>
+          </UserContainer>
+        ) : null}
       </NavContainer>
     </NavWrapper>
   );
@@ -95,4 +113,21 @@ const UserContainer = styled.div`
   }
 `;
 
-export default Header;
+const Logout = styled.p`
+  color: #2a2b2c;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 1rem;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, null)(Header);
