@@ -9,10 +9,15 @@ import SpinnerLoading from '../components/SpinnerLoading';
 const chartData = [];
 const chartXTags = [];
 
+const noDataInSpecifiedDates =
+  'No data is available on the specified dates. Try setting different start/end dates.';
+
 const ChartContainer = ({ url, handleFetch }) => {
   const [data, setData] = useState(chartData.reverse());
   const [xTags, setXTags] = useState(chartXTags.reverse());
   const [hasData, setHasData] = useState(null);
+
+  const [specifiedData, setSpecifiedData] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -50,12 +55,16 @@ const ChartContainer = ({ url, handleFetch }) => {
     const fetchApi = async () => {
       try {
         const res = await axios.get(`${url}`);
+        console.log(res);
         if (res.data.values.length > 0) {
           setHasData(true);
           res.data.values.map((element) => {
             chartData.push(parseFloat(element.close));
             chartXTags.push(element.datetime.slice(11, 19));
           });
+        }
+        if (res.data.message.includes(noDataInSpecifiedDates)) {
+          setSpecifiedData(true);
         } else {
           setHasData(false);
         }
@@ -74,6 +83,11 @@ const ChartContainer = ({ url, handleFetch }) => {
         <SpinnerLoading />
       ) : hasData ? (
         <HighchartsReact highcharts={Highcharts} options={options} />
+      ) : specifiedData ? (
+        <h2>
+          No se encontraron los datos solicitados para la acción. Intente
+          probando otro periodo
+        </h2>
       ) : (
         <h2>La acción que usted busca no se encuentra registrada.</h2>
       )}
