@@ -131,8 +131,8 @@ Felicidades, ya tenemos instalado Node y NPM en Windows.
 ## Preparar el entorno
 
 ```
-  1- Para iniciar la aplicación debemos clonar el repositorio	de este link https://github.com/HeraldHRLD/server-stock-app
-    en una carpeta.
+  1- Para iniciar la aplicación debemos clonar el repositorio	de este link 
+  https://github.com/HeraldHRLD/server-stock-app en una carpeta.
 
   2- Clonar este repositorio en una carpeta ajena a la anterior clonada.
 
