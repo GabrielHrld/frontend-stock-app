@@ -12,8 +12,6 @@ const Header = ({ user }) => {
   const [stock, setStock] = useState({});
   const [hasStock, setHasStock] = useState(false);
 
-  console.log(user.name);
-
   if (path != '/') {
     title = 'Mis acciones';
   } else {

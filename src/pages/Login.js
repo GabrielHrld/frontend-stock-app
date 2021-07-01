@@ -43,7 +43,6 @@ const Login = () => {
       localStorage.setItem('user', JSON.stringify(res.data.body));
       history.push('/mis-acciones');
       setTimeout(() => history.go(0), 5);
-      console.log(res);
       //ERRORES
     } catch (error) {
       const { body, status } = error.response.data;
@@ -111,8 +110,6 @@ const Background = styled.div`
   height: 100%;
   background: repeat-y center/100%
     url('http://vskills.in/certification/blog/wp-content/uploads/2015/01/why-do-stock-prices-change-frequently.jpg');
-  /* background: url('http://vskills.in/certification/blog/wp-content/uploads/2015/01/why-do-stock-prices-change-frequently.jpg');
-  background-repeat: no-repeat; */
   filter: blur(3px);
 `;
 

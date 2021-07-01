@@ -23,14 +23,9 @@ const InputSearchBar = ({ reference }) => {
         const res = await axios.get(
           `https://api.twelvedata.com/stocks?symbol=${query}&country=united%20states&source=docs`
         );
-        console.log(res.data.data);
         setResult(res.data.data);
         setLoading(false);
-        // setStocks(res.data.data);
-        // handleFetching();
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchData();
   }, [query]);
@@ -57,6 +52,7 @@ const InputSearchBar = ({ reference }) => {
                 item={item}
                 setError={setError}
                 setSuccess={setSuccess}
+                key={`${item.name}._${Math.random}`}
               />
             );
           })
@@ -117,7 +113,6 @@ const Ul = styled.ul`
     display: grid;
     grid-template-columns: 3fr 1fr 1fr 1fr;
     grid-gap: 1rem;
-    /* justify-content: space-between; */
     width: 100%;
     border-bottom: 1px solid #c5c5c5;
   }

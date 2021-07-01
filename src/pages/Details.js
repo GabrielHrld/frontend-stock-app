@@ -53,8 +53,6 @@ const Details = () => {
     url = `https://api.twelvedata.com/time_series?symbol=${stock}&country=united%20states&interval=${intervalStock}&start_date=${dateTime.start_date}&end_date=${dateTime.end_date}&apikey=${config.TwelveDataApiKey}`;
     clearTimeout(interval);
   }
-
-  console.log(url);
   return (
     <DetailsWrapper>
       <DetailsContainer>

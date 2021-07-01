@@ -164,8 +164,6 @@ const Background = styled.div`
   height: 100%;
   background: repeat-y center/100%
     url('http://vskills.in/certification/blog/wp-content/uploads/2015/01/why-do-stock-prices-change-frequently.jpg');
-  /* background: url('http://vskills.in/certification/blog/wp-content/uploads/2015/01/why-do-stock-prices-change-frequently.jpg');
-  background-repeat: no-repeat; */
   filter: blur(3px);
 `;
 

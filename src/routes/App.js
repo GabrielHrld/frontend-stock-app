@@ -1,40 +1,17 @@
 import React, { useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useLocation,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Details from '../pages/Details';
 import MyStocksPage from '../pages/MyStocksPage';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Layout from '../components/Layout';
+import NotFound from '../pages/NotFound';
 
 import PrivateRoute from '../components/PrivateRoute';
 
 import '../styles/app.scss';
-import axios from 'axios';
-import { connect } from 'react-redux';
 
-//ACTIONS
-import { setStocks, handleFetching } from '../actions';
-import NotFound from '../pages/NotFound';
-
-const App = ({ setStocks, handleFetching, user }) => {
-  useEffect(() => {
-    handleFetching();
-    const fetchData = async () => {
-      const res = await axios.get(
-        'https://api.twelvedata.com/stocks?&country=united%20states&source=docs'
-      );
-      console.log(res);
-      setStocks(res.data.data);
-      handleFetching();
-    };
-    fetchData();
-  }, []);
-
+const App = () => {
   return (
     <Router>
       <Layout>
@@ -58,15 +35,4 @@ const App = ({ setStocks, handleFetching, user }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
-
-const mapDispatchToProps = {
-  setStocks,
-  handleFetching,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

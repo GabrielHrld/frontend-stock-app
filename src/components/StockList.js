@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 
 const StockList = ({ item, setError, setSuccess, user }) => {
   const history = useHistory();
-  console.log('stocklist');
 
   const handleModal = (setState) => {
     setState(true);
@@ -19,7 +18,6 @@ const StockList = ({ item, setError, setSuccess, user }) => {
 
   const postStock = async (e, name, symbol, currency) => {
     e.preventDefault();
-    console.log(name, symbol, currency);
     try {
       const res = await axios.post(
         `${config.BackendUrl}/api/users/stocks`,
@@ -35,11 +33,9 @@ const StockList = ({ item, setError, setSuccess, user }) => {
       await handleModal(setSuccess);
       setTimeout(() => history.go(0), 1800);
     } catch (err) {
-      console.log({ err });
       const { status, body } = err.response.data;
       if (status == 400 && body == 'La acción ya se encuentra añadida') {
         handleModal(setError);
-        console.log('Ya la tenemos ');
       }
     }
   };

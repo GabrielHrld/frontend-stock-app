@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const Inputs = ({ type, name, state, setState, id, defaultChecked, label }) => {
   const onChange = (e) => {
     setState(e.target.value);
-    console.log(e.target.value);
   };
 
   return (

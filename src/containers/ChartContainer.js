@@ -21,8 +21,6 @@ const ChartContainer = ({ url, handleFetch }) => {
 
   const [loading, setLoading] = useState(false);
 
-  console.log('renderiza');
-
   const options = {
     chart: {
       type: 'line',
@@ -55,7 +53,6 @@ const ChartContainer = ({ url, handleFetch }) => {
     const fetchApi = async () => {
       try {
         const res = await axios.get(`${url}`);
-        console.log(res);
         if (res.data.values.length > 0) {
           setHasData(true);
           res.data.values.map((element) => {

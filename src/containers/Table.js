@@ -34,9 +34,7 @@ const Table = ({ user }) => {
 
         //Medio segundo después de eliminar, re renderizamos el componente
         setTimeout(() => setHandleFetch(!handleFetch), 500);
-      } catch (error) {
-        console.log({ error });
-      }
+      } catch (error) {}
     } else {
       return null;
     }
@@ -49,7 +47,6 @@ const Table = ({ user }) => {
         const res = await axios.get(
           `${config.BackendUrl}/api/users/stocks/${user.id}`
         );
-        console.log(res);
         setFavStocks(res.data.body);
         setLoading(false);
       } catch (error) {}
