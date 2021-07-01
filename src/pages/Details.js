@@ -44,13 +44,14 @@ const Details = () => {
     url = `https://api.twelvedata.com/time_series?symbol=${stock}&country=united%20states&interval=${intervalStock}&end_date=${date}&apikey=${config.TwelveDataApiKey}`;
 
     //cuando esté en realtime vuelve a renderizar el componente y llamar a la API
-    setTimeout(() => {
+    var interval = setTimeout(() => {
       setHandleFetch(!handleFetch);
     }, intervalInMiliseconds);
   }
 
   if (period == historical) {
     url = `https://api.twelvedata.com/time_series?symbol=${stock}&country=united%20states&interval=${intervalStock}&start_date=${dateTime.start_date}&end_date=${dateTime.end_date}&apikey=${config.TwelveDataApiKey}`;
+    clearTimeout(interval);
   }
 
   console.log(url);

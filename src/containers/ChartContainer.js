@@ -10,11 +10,13 @@ const chartData = [];
 const chartXTags = [];
 
 const ChartContainer = ({ url, handleFetch }) => {
-  const [data, setData] = useState(chartData);
-  const [xTags, setXTags] = useState(chartXTags);
+  const [data, setData] = useState(chartData.reverse());
+  const [xTags, setXTags] = useState(chartXTags.reverse());
   const [hasData, setHasData] = useState(null);
 
   const [loading, setLoading] = useState(false);
+
+  console.log('renderiza');
 
   const options = {
     chart: {
