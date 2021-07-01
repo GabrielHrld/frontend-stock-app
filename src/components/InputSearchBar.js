@@ -1,84 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 
-import { config } from '../utils/config';
+import StockList from './StockList';
 
-const InputSearchBar = ({
-  state,
-  handleSearch,
-  filteredUsers,
-  reference,
-  fetching,
-}) => {
-  const history = useHistory();
+const InputSearchBar = ({ reference }) => {
+  const [result, setResult] = useState([]);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  console.log(fetching);
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleModal = (setState) => {
-    setState(true);
-    setTimeout(() => {
-      setState(false);
-    }, 1500);
+  const handleChange = (e) => {
+    setQuery(e.target.value);
   };
 
-  const postStock = async (e, name, symbol, currency) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        `${config.BackendUrl}/api/users/stocks`,
-        //datos solicitados por el servidor para crear
-        { name, symbol, currency },
-        {
-          headers: {
-            //bearer token
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ikw2MXRTV0NrZ29WN2hqUDR5WE1UOU9ma18iLCJ1c2VybmFtZSI6InBydWViYSIsImlhdCI6MTYyNTA3MzQ0MX0.z2-oWqOTqgk7Z8CjDoMJ8XICTzEEQA4zHI_sTM-M4G0`,
-          },
-        }
-      );
-      await handleModal(setSuccess);
-      setTimeout(() => history.go(0), 1800);
-    } catch (err) {
-      console.log({ err });
-      const { status, body } = err.response.data;
-      if (status == 400 && body == 'La acción ya se encuentra añadida') {
-        handleModal(setError);
-        console.log('Ya la tenemos ');
+  useEffect(() => {
+    setLoading(true);
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `https://api.twelvedata.com/stocks?symbol=${query}&country=united%20states&source=docs`
+        );
+        console.log(res.data.data);
+        setResult(res.data.data);
+        setLoading(false);
+        // setStocks(res.data.data);
+        // handleFetching();
+      } catch (error) {
+        console.log(error);
       }
-    }
-  };
+    };
+    fetchData();
+  }, [query]);
 
   return (
     <InputWrapper>
       <Input
         type="text"
         placeholder="Buscar"
-        value={state}
-        onChange={handleSearch}
+        value={query}
+        onChange={handleChange}
         ref={reference}
       />
       {/* render de la lista de búsqueda */}
-      <Ul active={state == '' ? false : true}>
-        {state == '' ? null : fetching ? (
+      <Ul active={query == '' ? false : true}>
+        {loading ? (
           <h2>cargando...</h2>
+        ) : result.length == 0 ? (
+          <h2>El símbolo no coincide con ninguna acción</h2>
         ) : (
-          filteredUsers.map((item) => {
+          result.map((item) => {
             return (
-              <li value={item.symbol} key={`${item.name}${Math.random()}`}>
-                <P>{item.name}</P>
-                <P>{item.symbol}</P>
-                <P>{item.currency}</P>
-                <Add
-                  onClick={(e) =>
-                    postStock(e, item.name, item.symbol, item.currency)
-                  }
-                >
-                  Añadir
-                </Add>
-              </li>
+              <StockList
+                item={item}
+                setError={setError}
+                setSuccess={setSuccess}
+              />
             );
           })
         )}
@@ -151,15 +130,6 @@ const Ul = styled.ul`
   }
 `;
 
-const Add = styled.span`
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-`;
-
-const P = styled.p``;
-
 const ErrorModel = styled.div`
   position: fixed;
   transition: 1s all ease;
@@ -186,7 +156,8 @@ const ErrorModel = styled.div`
 const mapStateToProps = (state) => {
   return {
     fetching: state.fetching,
+    user: state.user,
   };
 };
 
-export default connect(mapStateToProps, null)(InputSearchBar);
+export default connect(mapStateToProps, null)(React.memo(InputSearchBar));

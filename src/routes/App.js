@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import Details from '../pages/Details';
 import MyStocksPage from '../pages/MyStocksPage';
 import Login from '../pages/Login';
@@ -14,6 +19,7 @@ import { connect } from 'react-redux';
 
 //ACTIONS
 import { setStocks, handleFetching } from '../actions';
+import NotFound from '../pages/NotFound';
 
 const App = ({ setStocks, handleFetching, user }) => {
   useEffect(() => {
@@ -22,6 +28,7 @@ const App = ({ setStocks, handleFetching, user }) => {
       const res = await axios.get(
         'https://api.twelvedata.com/stocks?&country=united%20states&source=docs'
       );
+      console.log(res);
       setStocks(res.data.data);
       handleFetching();
     };
@@ -33,7 +40,6 @@ const App = ({ setStocks, handleFetching, user }) => {
       <Layout>
         <Switch>
           <Route exact path="/" component={Login} />
-          <PrivateRoute exact={true} path="/" component={Login} />
           <Route exact path="/register" component={Register} />
           <PrivateRoute
             exact={true}
@@ -45,8 +51,7 @@ const App = ({ setStocks, handleFetching, user }) => {
             path="/details/:stock"
             component={Details}
           />
-          {/* <Route exact path="/mis-acciones" component={MyStocksPage} />
-          <Route exact path="/details/:stock" component={Details} /> */}
+          <Route exact path="*" component={NotFound} />
         </Switch>
       </Layout>
     </Router>

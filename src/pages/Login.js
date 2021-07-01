@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import InputForm from '../components/InputForm';
@@ -11,6 +11,9 @@ const INVALID_DATA = 'Información inválida';
 
 const Login = () => {
   const history = useHistory();
+  if (localStorage.getItem('user') != null) {
+    return <Redirect to="/mis-acciones" />;
+  }
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

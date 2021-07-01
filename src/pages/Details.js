@@ -53,6 +53,7 @@ const Details = () => {
     url = `https://api.twelvedata.com/time_series?symbol=${stock}&country=united%20states&interval=${intervalStock}&start_date=${dateTime.start_date}&end_date=${dateTime.end_date}&apikey=${config.TwelveDataApiKey}`;
   }
 
+  console.log(url);
   return (
     <DetailsWrapper>
       <DetailsContainer>
@@ -79,20 +80,28 @@ const Details = () => {
               setState={setPeriod}
               label="Histórico"
             />
-            <DateTimeContainer
-              label="Fecha hora desde"
-              type="datetime-local"
-              id="start_date"
-              state={dateTime}
-              setState={setDateTime}
-            />
-            <DateTimeContainer
-              label="Fecha hora hasta"
-              type="datetime-local"
-              id="end_date"
-              state={dateTime}
-              setState={setDateTime}
-            />
+            <div
+              style={{
+                display: 'flex',
+                width: '80%',
+                flexWrap: 'wrap',
+              }}
+            >
+              <DateTimeContainer
+                label="Fecha hora desde"
+                type="datetime-local"
+                id="start_date"
+                state={dateTime}
+                setState={setDateTime}
+              />
+              <DateTimeContainer
+                label="Fecha hora hasta"
+                type="datetime-local"
+                id="end_date"
+                state={dateTime}
+                setState={setDateTime}
+              />
+            </div>
           </PeriodContainer>
           <PeriodContainer>
             <label>Intervalo</label>
@@ -138,6 +147,7 @@ const DetailsContainer = styled.div`
 
 const PeriodContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 1.5rem;
 `;

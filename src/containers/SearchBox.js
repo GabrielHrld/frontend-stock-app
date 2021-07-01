@@ -7,8 +7,6 @@ import SearchBarContainer from './SeachBarContainer';
 import Table from './Table';
 
 const SearchBox = ({ stocks }) => {
-  console.log(stocks);
-
   return (
     <SearchBoxWrapper>
       <SearchBarContainer />

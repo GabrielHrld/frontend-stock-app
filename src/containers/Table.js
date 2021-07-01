@@ -6,14 +6,13 @@ import axios from 'axios';
 import { config } from '../utils/config';
 
 import Spinner from '../components/SpinnerLoading';
+import { connect } from 'react-redux';
 
-const Table = () => {
+const Table = ({ user }) => {
   const history = useHistory();
   const [favStocks, setFavStocks] = useState([]);
   const [handleFetch, setHandleFetch] = useState(false);
   const [loading, setLoading] = useState();
-
-  console.log(favStocks);
 
   const deleteStock = async (e, symbol, currency) => {
     if (confirm('¿Seguro desea eliminar la acción?')) {
@@ -23,7 +22,7 @@ const Table = () => {
           {
             //bearer token
             headers: {
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ikw2MXRTV0NrZ29WN2hqUDR5WE1UOU9ma18iLCJ1c2VybmFtZSI6InBydWViYSIsImlhdCI6MTYyNTA3MzQ0MX0.z2-oWqOTqgk7Z8CjDoMJ8XICTzEEQA4zHI_sTM-M4G0`,
+              Authorization: `Bearer ${user.token}`,
             },
             //datos que pide el servidor para eliminar
             data: {
@@ -48,8 +47,9 @@ const Table = () => {
     const fetchApi = async () => {
       try {
         const res = await axios.get(
-          `${config.BackendUrl}/api/users/stocks/L61tSWCkgoV7hjP4yXMT9Ofk_`
+          `${config.BackendUrl}/api/users/stocks/${user.id}`
         );
+        console.log(res);
         setFavStocks(res.data.body);
         setLoading(false);
       } catch (error) {}
@@ -144,4 +144,10 @@ const Delete = styled.p`
   }
 `;
 
-export default Table;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, null)(Table);

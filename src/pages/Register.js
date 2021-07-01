@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 
 import { config } from '../utils/config';
 
@@ -8,10 +8,12 @@ import { Button } from '../components/Button';
 import InputForm from '../components/InputForm';
 import axios from 'axios';
 
-const MYSQL_UNIQUE_ERROR =
-  "Error: Duplicate entry 'prueba' for key 'username_UNIQUE'";
+const MYSQL_UNIQUE_ERROR = 'Error: Duplicate entry';
 
 const Register = () => {
+  if (localStorage.getItem('user') != null) {
+    return <Redirect to="/mis-acciones" />;
+  }
   const history = useHistory();
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
@@ -66,7 +68,7 @@ const Register = () => {
       // ERRORES
     } catch (error) {
       const { body, status } = error.response.data;
-      if (body == MYSQL_UNIQUE_ERROR && status == 400) {
+      if (body.includes(MYSQL_UNIQUE_ERROR) && status == 400) {
         setError({
           field: 'El usuario ya existe, por favor, elija otro',
           valid: true,

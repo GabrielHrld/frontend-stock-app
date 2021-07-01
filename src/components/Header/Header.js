@@ -63,7 +63,7 @@ const Header = ({ user }) => {
             <Title to="/mis-acciones">{`${stock.symbol} - ${stock.name} - ${stock.currency}`}</Title>
           )
         ) : (
-          <Title to="/mis-acciones">{title}</Title>
+          <Title to="/">{title}</Title>
         )}
         {user.name !== undefined ? (
           <UserContainer>
